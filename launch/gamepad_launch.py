@@ -55,7 +55,7 @@ def generate_launch_description():
     )
     
     controller_node = launch_ros.actions.Node(
-      package='final-project',
+      package='final_project',
       executable='wireless_controller',
       name='wireless_controller'
     )
