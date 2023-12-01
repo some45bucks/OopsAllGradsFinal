@@ -80,6 +80,9 @@ class WirelessController(Node):
         #     else:
         #         self.stop_recording()
 
+        if msg.buttons[Y_BUTTON] == 1:
+            self.save_map()
+
         if msg.axes[UP_DOWN_DPAD] != 0.0:
             if msg.axes[UP_DOWN_DPAD] > 0:
                 old_max_vel = self.current_max_vel
@@ -131,18 +134,41 @@ class WirelessController(Node):
     def start_recording(self):
         self.process = subprocess.Popen(['ros2', 'bag', 'record', '-a'])
         self.is_recording = True
-        self.get_logger().info('Started recording bag')
 
     def stop_recording(self):
         if self.process:
             self.process.terminate()
             self.process = None
         self.is_recording = False
-        self.get_logger().info('Stopped recording bag')
+
+    def save_map(self):
+
+        ld = generate_save_map_launch()
+        ls = launch.LaunchService()
+        ls.include_launch_description(ld)
+        ls.run()
+        print(f"saved map")
+
+def generate_save_map_launch():
+
+    map_saver = launch_ros.actions.Node(
+        package='nav2_map_server',
+        executable='map_saver_cli',
+        output='screen',
+        arguments=['-f', '/home/wheeltec/map'],
+        
+        parameters=[{'save_map_timeout': 20000},
+                    {'free_thresh_default': 0.196}]
+
+        )
+    ld = LaunchDescription()
+
+    ld.add_action(map_saver)
+
+    return ld
 
 def main():
     rclpy.init()
-
     minimal_publisher = WirelessController()
     rclpy.spin(minimal_publisher)
     minimal_publisher.destroy_node()
