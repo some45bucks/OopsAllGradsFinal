@@ -1,5 +1,8 @@
 
 import subprocess
+from launch import LaunchDescription
+import launch
+import launch_ros
 import rclpy
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import Twist
@@ -142,12 +145,12 @@ class WirelessController(Node):
         self.is_recording = False
 
     def save_map(self):
-
+        print(f"MAP SAVING---------------------------------------------------------------------------")
         ld = generate_save_map_launch()
         ls = launch.LaunchService()
         ls.include_launch_description(ld)
         ls.run()
-        print(f"saved map")
+        print(f"MAP SAVED----------------------------------------------------------------------------")
 
 def generate_save_map_launch():
 
@@ -155,7 +158,7 @@ def generate_save_map_launch():
         package='nav2_map_server',
         executable='map_saver_cli',
         output='screen',
-        arguments=['-f', '/home/wheeltec/map'],
+        arguments=['-f', '/home/wheeltec/wheeltec_ros2/install/wheeltec_nav2/share/wheeltec_nav2/map/WHEELTEC'],
         
         parameters=[{'save_map_timeout': 20000},
                     {'free_thresh_default': 0.196}]

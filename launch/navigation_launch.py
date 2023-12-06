@@ -12,40 +12,25 @@ def generate_launch_description():
     bringup_dir = get_package_share_directory('turn_on_wheeltec_robot')
     launch_dir = os.path.join(bringup_dir, 'launch')
 
-    mapping_pkg = 'wheeltec_cartographer'
-    mapping_file_name = 'cartographer.launch.py'
+    nav_pkg = 'wheeltec_nav2'
+    nav_file_name = 'wheeltec_nav2.launch.py'
 
-    mapping_dir = get_package_share_directory(mapping_pkg)
-    mapping_launch_file_path = os.path.join(mapping_dir, 'launch', mapping_file_name)
+    nav_dir = get_package_share_directory(nav_pkg)
+    nav_launch_file_path = os.path.join(nav_dir, 'launch', nav_file_name)
 
     wheeltec_robot = IncludeLaunchDescription(
             PythonLaunchDescriptionSource(os.path.join(launch_dir, 'base_serial.launch.py')),
             launch_arguments={'akmcar': 'false'}.items(),
     )
 
-    joy_node = launch_ros.actions.Node(
-      package='joy_linux',
-      executable='joy_linux_node',
-      name='joy_node',
-    )
-    
-    controller_node = launch_ros.actions.Node(
-      package='final_project',
-      executable='wireless_controller',
-      name='wireless_controller',
-      output ='screen'
-    )
-
-    mapping = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(mapping_launch_file_path)
+    navigation = IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(nav_launch_file_path),
     )
 
     ld = LaunchDescription()
 
     ld.add_action(wheeltec_robot)
-    ld.add_action(joy_node)
-    ld.add_action(controller_node)
-    ld.add_action(mapping)
+    ld.add_action(navigation)
     
     return ld
 
