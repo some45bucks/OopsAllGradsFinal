@@ -35,8 +35,8 @@ class WirelessController(Node):
         super().__init__("wireless_control")
         self.publisher = self.create_publisher(Twist, "/cmd_vel", 10)
         self.subscriber = self.create_subscription(Joy, "/joy", self.handle_controller, 10)
-        self.trigger_control = False
-        self.current_max_vel = 0.972 # 1.2
+        self.trigger_control = True
+        self.current_max_vel = 0.45 # 1.2
         self.current_max_angular_vel = 1.2
         self.swapped_recently = False
         self.waiting_time_to_allow_switch = 30
