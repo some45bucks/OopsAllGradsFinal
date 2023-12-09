@@ -35,8 +35,8 @@ class WirelessController(Node):
         super().__init__("wireless_control")
         self.publisher = self.create_publisher(Twist, "/cmd_vel", 10)
         self.subscriber = self.create_subscription(Joy, "/joy", self.handle_controller, 10)
-        self.trigger_control = False
-        self.current_max_vel = 1.2
+        self.trigger_control = True
+        self.current_max_vel = 0.45 # 1.2
         self.current_max_angular_vel = 1.2
         self.swapped_recently = False
         self.waiting_time_to_allow_switch = 30
@@ -45,7 +45,10 @@ class WirelessController(Node):
         self.timer = self.create_timer(0.1, self.handle_pub)
         self.twist_msg = None
 
-    
+        self.ltrig_touched = False
+        self.rtrig_touched = False
+
+
     def handle_pub(self):
         if self.twist_msg != None:
 
@@ -113,9 +116,22 @@ class WirelessController(Node):
             
             print(f"Increasing from {old_max_angular_vel} m/s to {self.current_max_angular_vel}")
 
+
+        # Trigger axes are set to zero in messages until they have moved,
+        # then they are given a value from -1 (depressed) to 1 (fully released)
+        # after initial movement. Need to make sure we do not interpret 0 as half-
+        # depressed when they have not been touched and are actually released.
+        # We should always check this since triggers may be touched first even when using
+        # dual-stick control
+        if msg.axes[LEFT_TRIGGGER] != 0.0 and not self.ltrig_touched:
+           self.ltrig_touched = True
         
+        if msg.axes[RIGHT_TRIGGGER] != 0.0 and not self.rtrig_touched:
+            self.rtrig_touched = True
+
+
         twist_message = Twist()
-        
+
 
         # =======================================================================
         # Control Logic (Not trigger control)
@@ -129,7 +145,23 @@ class WirelessController(Node):
         # Control Logic (Trigger control)
         # =======================================================================
         else:
-            pass
+            twist_message.angular.z = msg.axes[LEFT_STICK_TURN_AXIS] * self.current_max_angular_vel
+
+            ltrig_normalized = (-msg.axes[LEFT_TRIGGGER] + 1) / 2 if self.ltrig_touched else 0
+            rtrig_normalized = (-msg.axes[RIGHT_TRIGGGER] + 1) / 2 if self.rtrig_touched else 0
+
+            if rtrig_normalized > 0.0:
+                twist_message.linear.x = rtrig_normalized * self.current_max_vel
+            elif ltrig_normalized > 0.0:
+                twist_message.linear.x = -ltrig_normalized * self.current_max_vel
+            else:
+                twist_message.linear.x = 0.0
+
+
+        # Make reversing easier to control: Make it so the back end of the robot moves in the
+        # direction the control stick points. Need to invert the steering when going backward
+        if twist_message.linear.x < 0.0:
+            twist_message.angular.z = -twist_message.angular.z
 
 
         self.twist_msg = twist_message
@@ -180,3 +212,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
