@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'wireless_controller = final_project.wireless_controller:main',
+            'person_detection = final_project.person_detection:main'
         ],
     },
 )
