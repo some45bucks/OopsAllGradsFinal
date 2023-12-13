@@ -35,5 +35,6 @@
 - `wireless_controller.py` teleops the robot
 
 # Videos
-These two videos are the base uneditied videos of our project: https://drive.google.com/drive/folders/10jbVfDthZmff1kZQLw7Y1c647i5_nZ9M?usp=sharing
+- Editied video: https://usu-my.sharepoint.com/:v:/g/personal/a02218706_aggies_usu_edu/EeXA7O6Pw45EnQPBQbMQSqMB0HjQNCICgYYT8ARvOGa2BQ?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=YkDees
+- These two videos are the base uneditied videos of our project: https://drive.google.com/drive/folders/10jbVfDthZmff1kZQLw7Y1c647i5_nZ9M?usp=sharing
 In the recording of rviz the numbers on the right are yolo's confidence in a person being there at that moment.
