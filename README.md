@@ -36,3 +36,4 @@
 
 # Videos
 These two videos are the base uneditied videos of our project: https://drive.google.com/drive/folders/10jbVfDthZmff1kZQLw7Y1c647i5_nZ9M?usp=sharing
+In the recording of rviz the numbers on the right are yolo's confidence in a person being there at that moment.
