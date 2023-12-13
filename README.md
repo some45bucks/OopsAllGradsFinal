@@ -1,6 +1,6 @@
 # Dependencies
 - wheeltec rosbot plus: https://www.roboworks.net/store/p/rosbot-pro-4wdis
-- The manufacture provided SD card includes the cartographer package and other packages for controlling the robot for the wheeltec robot
+- The manufacture provided SD card includes the cartographer package and other packages for controlling the robot
 - This specific build of pytorch: https://github.com/Qengineering/PyTorch-Jetson-Nano
 - Ultralytics was used for person detection using the yolo models: https://github.com/ultralytics/ultralytics
 - Joy_Linux ros package for uisng a xbox 360 wireless controller: https://index.ros.org/p/joy_linux/
