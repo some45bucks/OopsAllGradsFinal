@@ -4,6 +4,7 @@ from sensor_msgs.msg import Image
 from cv_bridge import CvBridge
 from final_project.rgb_ir_integration.integration import integrated_predictions
 from ultralytics import YOLO
+from std_msgs.msg import Float32
 
 class ImageIntegrationNode(Node):
     def __init__(self):
@@ -15,6 +16,7 @@ class ImageIntegrationNode(Node):
         print('loading rgb model')
         self.rgb_model = YOLO('final_project/rgb_ir_integration/best_rgb.pt')
         print('all models are loaded')
+        self.prob_publisher = self.create_publisher(Float32, 'prob_topic', 10)
         self.subscription = self.create_subscription(
             Image,
             '/camera/color/image_raw',
@@ -39,6 +41,10 @@ class ImageIntegrationNode(Node):
                 )
 
                 self.get_logger().info(f'Integrated Probability: {integrated_prob}')
+                if integrated_prob != None:
+                    msg = Float32()
+                    msg.data = float(integrated_prob)
+                    self.prob_publisher.publish(msg)
             except Exception as e:
                 self.get_logger().error(f'Error processing image: {str(e)}')
 
@@ -49,6 +55,8 @@ class ImageIntegrationNode(Node):
             self.get_logger().info('Subscription paused')
         else:
             self.get_logger().info('Subscription resumed')
+
+        
 
 
 def main():
