@@ -33,3 +33,6 @@
 - `person_detection.py` loads and runs the yolo model using the robots camera
 - `viz_people.py` takes in the predictions from the yolo model and outputs the direction the people are in from the robot
 - `wireless_controller.py` teleops the robot
+
+# Videos
+These two videos are the base uneditied videos of our project: https://drive.google.com/drive/folders/10jbVfDthZmff1kZQLw7Y1c647i5_nZ9M?usp=sharing
