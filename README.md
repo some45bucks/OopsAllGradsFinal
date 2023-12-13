@@ -16,7 +16,7 @@
 - To run the ros bag file download the bag from here: https://usu.box.com/s/9ukvlxlshevzdykpf4s9d8bsue3pphyi
 - Open rviz and use the config file named `project_default.rviz`
 - run the command `ros2 bag play rosbag2`
-- You should see the robot map the surroudning area and plot red arrows from it's current position in the direction where people are detected
+- You should see the robot map the surroudning area and plot red arrows from its current position in the direction where people are detected
 - It taks a while to get started because of the waiting for the models to load in
 
 # Launch Files
