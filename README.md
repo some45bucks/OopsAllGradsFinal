@@ -5,6 +5,9 @@
 - Ultralytics was used for person detection using the yolo models: https://github.com/ultralytics/ultralytics
 - Joy_Linux ros package for uisng a xbox 360 wireless controller: https://index.ros.org/p/joy_linux/
 
+# Dataset
+- [IR Person Detection dataset](https://universe.roboflow.com/svmit/ir_objectdetection/dataset/2) for fine tuning of the IR YOLO-based Model.
+  
 # Steps for our results
 - build using `colcon build --symlink-install`
 - run `source ./install/setup.bash`
